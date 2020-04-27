@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float speed = 4;
+    private Vector2 dest = Vector2.zero;
     private Rigidbody2D rb2d;
     private float power;
     private int breakPower = 0;
@@ -14,19 +15,24 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-
+        //dest = transform.position;
     }
 
     void Update()
     {
         if(!isRam)
         {
-            float moveHorizontal = Input.GetAxis ("Horizontal");
-            float moveVertical = Input.GetAxis ("Vertical");
-            Vector2 movement = new Vector2 (moveHorizontal, moveVertical);
+            if (Input.GetKey(KeyCode.UpArrow))
+                dest = new Vector2(0, 1);
+            if (Input.GetKey(KeyCode.DownArrow))
+                dest = new Vector2(0, -1);
+            if (Input.GetKey(KeyCode.RightArrow))
+                dest = new Vector2(1, 0);
+            if (Input.GetKey(KeyCode.LeftArrow))
+                dest = new Vector2(-1, 0);
             Vector2 cursor = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             float angle = Mathf.Atan2(transform.position.y - cursor.y, transform.position.x - cursor.x) * Mathf.Rad2Deg;
-            rb2d.velocity = movement*speed;
+            rb2d.velocity = dest*speed;
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle+180));
         }
         else if (isRam)
@@ -67,10 +73,15 @@ public class Player : MonoBehaviour
   
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Wall" && breakPower == 2 && isRam)
+        if (collision.gameObject.CompareTag("TembokRidho"))
         {
-            wall = FindObjectOfType<Wall>();
-            wall.Destroying();
+            dest = Vector2.zero;
+            if (breakPower == 2 && isRam)
+            {
+                wall = FindObjectOfType<Wall>();
+                wall.Destroying();
+            }
+            
         }
     }
 }
