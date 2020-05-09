@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5180971636275131641}
   - component: {fileID: 5071048791981129839}
   - component: {fileID: 5742917712454532680}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall
   m_TagString: TembokRidho
   m_Icon: {fileID: 0}

@@ -22,15 +22,16 @@ public class Player : MonoBehaviour
     {
         if(!isRam)
         {
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.W))
                 dest = new Vector2(0, 1);
-            if (Input.GetKey(KeyCode.DownArrow))
+            if (Input.GetKey(KeyCode.S))
                 dest = new Vector2(0, -1);
-            if (Input.GetKey(KeyCode.RightArrow))
+            if (Input.GetKey(KeyCode.D))
                 dest = new Vector2(1, 0);
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (Input.GetKey(KeyCode.A))
                 dest = new Vector2(-1, 0);
             Vector2 cursor = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+     //ganti
             float angle = Mathf.Atan2(transform.position.y - cursor.y, transform.position.x - cursor.x) * Mathf.Rad2Deg;
             rb2d.velocity = dest*speed;
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle+180));
