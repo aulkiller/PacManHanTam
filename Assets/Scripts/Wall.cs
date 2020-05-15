@@ -23,9 +23,13 @@ public class Wall : MonoBehaviour
             {
                 player.isRam = false;
                 player.breakPower = 0;
+                if(gameObject.CompareTag("TembokRidho"))
+                {
                 Destroy(gameObject);
                 grid = FindObjectOfType<Grid>();
                 grid.CreateGrid();
+
+                }
                 
             }
 
