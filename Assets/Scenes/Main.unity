@@ -306,6 +306,8 @@ GameObject:
   m_Component:
   - component: {fileID: 726196828}
   - component: {fileID: 726196827}
+  - component: {fileID: 726196829}
+  - component: {fileID: 726196830}
   m_Layer: 0
   m_Name: A*
   m_TagString: Untagged
@@ -331,7 +333,7 @@ MonoBehaviour:
     m_Bits: 256
   gridWorldSize: {x: 30, y: 30}
   nodeRadius: 0.5
-  show: 0
+  show: 1
 --- !u!4 &726196828
 Transform:
   m_ObjectHideFlags: 0
@@ -346,6 +348,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &726196829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726196826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f6a150af1d98ed478d008b8b5f6233f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &726196830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726196826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7554d50d8403c9241879255f5760468e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &750887045
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,6 +465,7 @@ GameObject:
   - component: {fileID: 981567171}
   - component: {fileID: 981567170}
   - component: {fileID: 981567169}
+  - component: {fileID: 981567173}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -558,6 +585,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!114 &981567173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981567168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55c3d2c8eb7d4ba4aa9c9e4a61443cd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 2040996187}
 --- !u!1 &1289508378
 GameObject:
   m_ObjectHideFlags: 0
