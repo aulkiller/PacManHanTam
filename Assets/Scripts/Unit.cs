@@ -1,69 +1,86 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Specialized;
 
 public class Unit : MonoBehaviour
 {
-    public Transform target;
-    float speed = 10;
-    Vector3[] path;
-    int targetIndex;
 
-    private void Start()
-    {
-        PathManager.RequestPath(transform.position, target.position, OnPathFound);
-        
-    }
+	public Transform target;
+	public float speed = 20;
 
-    public void OnPathFound(Vector3[] newPath, bool pathSucessful)
-    {
-        if (pathSucessful)
-        {
-            path = newPath;
-            StopCoroutine("FollowPath");
-            StartCoroutine("FollowPath");
-        }
-    }
+	Vector2[] path;
+	int targetIndex;
 
-    IEnumerator FollowPath()
-    {
-        Vector3 currentWaypoint = path[0];
+	void Start()
+	{
+		StartCoroutine(RefreshPath());
+	}
 
-        while (true)
-        {
-            if(transform.position == currentWaypoint)
-            {
-                targetIndex++;
-                if(targetIndex >= path.Length)
-                {
-                    yield break;
-                }
-                currentWaypoint = path[targetIndex];
-            }
-            //ganti
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed);
-            yield return null;
-        }
-    }
-    public void OnDrawGizmos()
-    {
-        if(path != null)
-        {
-            for(int i = targetIndex; i< path.Length; i++)
-            {
-                Gizmos.color = Color.black;
-                Gizmos.DrawCube(path[i], Vector3.one);
+	IEnumerator RefreshPath()
+	{
+		Vector2 targetPositionOld = (Vector2)target.position + Vector2.up; // ensure != to target.position initially
 
-                if(i == targetIndex)
-                {
-                    Gizmos.DrawLine(transform.position, path[i]);
-                }
-                else
-                {
-                    Gizmos.DrawLine(path[i - 1], path[i]);
-                }
-            }
+		while (true)
+		{
+			if (targetPositionOld != (Vector2)target.position)
+			{
+				targetPositionOld = (Vector2)target.position;
 
-        }
-    }
+				path = Pathfinding.RequestPath(transform.position, target.position);
+				StopCoroutine("FollowPath");
+				StartCoroutine("FollowPath");
+			}
+
+			yield return new WaitForSeconds(.25f);
+		}
+	}
+
+	IEnumerator FollowPath()
+	{
+		if (path.Length > 0)
+		{
+			targetIndex = 0;
+			Vector2 currentWaypoint = path[0];
+
+			while (true)
+			{
+				if ((Vector2)transform.position == currentWaypoint)
+				{
+					targetIndex++;
+					if (targetIndex >= path.Length)
+					{
+						targetIndex = 0;
+						path = new Vector2[0];
+						yield break;
+					}
+					currentWaypoint = path[targetIndex];
+				}
+
+				transform.position = Vector2.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
+				yield return null;
+
+			}
+		}
+	}
+
+	public void OnDrawGizmos()
+	{
+		if (path != null)
+		{
+			for (int i = targetIndex; i < path.Length; i++)
+			{
+				Gizmos.color = Color.black;
+				//Gizmos.DrawCube((Vector3)path[i], Vector3.one *.5f);
+
+				if (i == targetIndex)
+				{
+					Gizmos.DrawLine(transform.position, path[i]);
+				}
+				else
+				{
+					Gizmos.DrawLine(path[i - 1], path[i]);
+				}
+			}
+		}
+	}
 }
