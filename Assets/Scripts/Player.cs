@@ -9,17 +9,22 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb2d;
     private float power;
     public int breakPower = 0;
-    public bool isRam = false;
+    public bool isRam = false,play;
+    public Vector3 startLocation;
    // private Wall wall;
 
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        startLocation = gameObject.transform.position;
         //dest = transform.position;
     }
 
     void Update()
     {
+        if(play)
+        {
+
         if(!isRam)
         {
             if (Input.GetKey(KeyCode.W))
@@ -66,11 +71,16 @@ public class Player : MonoBehaviour
         if(Input.GetMouseButtonUp(0))
         {
             isRam = true;
+        } 
         }
-
-        
- 
     }
-  
-    
+
+    public void ResetLocation()
+    {
+        rb2d.velocity = Vector2.zero;
+        dest = Vector2.zero;
+       gameObject.transform.position = startLocation;
+    }
+
+
 }

@@ -6,17 +6,13 @@ public class Unit : MonoBehaviour
 {
 
 	public Transform target;
-	public float speed = 20;
+	public float speed;
+	[SerializeField] private float RotationSpeed;
 
 	Vector2[] path;
 	int targetIndex;
 
-	void Start()
-	{
-		StartCoroutine(RefreshPath());
-	}
-
-	IEnumerator RefreshPath()
+	public IEnumerator RefreshPath()
 	{
 		Vector2 targetPositionOld = (Vector2)target.position + Vector2.up; // ensure != to target.position initially
 
@@ -35,8 +31,9 @@ public class Unit : MonoBehaviour
 		}
 	}
 
-	IEnumerator FollowPath()
+	public IEnumerator FollowPath()
 	{
+		
 		if (path.Length > 0)
 		{
 			targetIndex = 0;
@@ -44,6 +41,7 @@ public class Unit : MonoBehaviour
 
 			while (true)
 			{
+
 				if ((Vector2)transform.position == currentWaypoint)
 				{
 					targetIndex++;
@@ -54,9 +52,9 @@ public class Unit : MonoBehaviour
 						yield break;
 					}
 					currentWaypoint = path[targetIndex];
-				}
 
-				transform.position = Vector2.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
+				}
+					transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, this.speed * Time.deltaTime);
 				yield return null;
 
 			}

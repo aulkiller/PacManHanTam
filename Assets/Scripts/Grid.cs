@@ -60,6 +60,8 @@ public class Grid : MonoBehaviour
 			{
 				if (x == 0 && y == 0)
 					continue;
+				if (Mathf.Abs(x) == Mathf.Abs(y))
+					continue;
 
 				int checkX = node.gridX + x;
 				int checkY = node.gridY + y;
