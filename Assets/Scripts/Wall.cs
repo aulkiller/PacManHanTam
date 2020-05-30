@@ -21,8 +21,9 @@ public class Wall : MonoBehaviour
             Debug.Log(player.isRam);
             if (player.breakPower >=2 && player.isRam == true)
             {
-                player.isRam = false;
-                player.breakPower = 0;
+                //player.isRam = false;
+                //player.breakPower = 0;
+                //player.power = 0;
                 if(gameObject.CompareTag("TembokRidho"))
                 {
                 Destroy(gameObject);

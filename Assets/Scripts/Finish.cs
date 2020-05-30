@@ -30,17 +30,15 @@ public class Finish : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            gameStatus.NexLevel();
+            gameStatus.areaPoint++;
+            gameStatus.Stop();
+            //gameStatus.next = true;
             Destroy(gameObject);
         }
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("TembokRidho"))
+        else if (collision.gameObject.CompareTag("TembokRidho") || collision.gameObject.CompareTag("Point"))
         {
             Location();
         }
-        
     }
 
 

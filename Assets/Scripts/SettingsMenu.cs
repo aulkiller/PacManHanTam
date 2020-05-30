@@ -10,7 +10,7 @@ public class SettingsMenu : MonoBehaviour
 {
     public AudioMixer volMixer;
     public Slider volSlider;
-   // public Toggle fullScreenToggle;
+    public Toggle fullScreenToggle;
     public Toggle resolutionToggle800x600, resolutionToggle1280x720, resolutionToggle1366x768;
     //public GameObject Credits;
     private int screenInt;
@@ -43,69 +43,69 @@ public class SettingsMenu : MonoBehaviour
         //resolutionDropdown.value = PlayerPrefs.GetInt(resname, currentResolutionIndex);
         
     }
-    public void Resolution800x600(bool active)
-    {
-        if (active == false)
-        {
-            PlayerPrefs.SetInt("togglestate", 0);
-        }
-        else
-        {
-            Screen.SetResolution(800, 600, Screen.fullScreen);
-            PlayerPrefs.SetInt("togglestate", 1);
-        }
-    }
-    public void Resolution1280x720(bool active)
-    {
-        if (active == false)
-        {
-            PlayerPrefs.SetInt("togglestate", 0);
-        }
-        else
-        {
-            Screen.SetResolution(1280, 720,Screen.fullScreen);
-            PlayerPrefs.SetInt("togglestate", 1);
-        }
-    }
-    public void Resolution1366x768(bool active)
-    {
-        if (active == false)
-        {
-            PlayerPrefs.SetInt("togglestate", 0);
-        }
-        else
-        {
-            Screen.SetResolution(1366, 768,Screen.fullScreen);
-            PlayerPrefs.SetInt("togglestate", 1);
-        }
-    }
+    //public void Resolution800x600(bool active)
+    //{
+    //    if (active == false)
+    //    {
+    //        PlayerPrefs.SetInt("togglestate8x6", 0);
+    //    }
+    //    else
+    //    {
+    //        Screen.SetResolution(800, 600, Screen.fullScreen);
+    //        PlayerPrefs.SetInt("togglestate8x6", 1);
+    //    }
+    //}
+    //public void Resolution1280x720(bool active)
+    //{
+    //    if (active == false)
+    //    {
+    //        PlayerPrefs.SetInt("togglestate12x72", 0);
+    //    }
+    //    else
+    //    {
+    //        Screen.SetResolution(1280, 720,Screen.fullScreen);
+    //        PlayerPrefs.SetInt("togglestate12x72", 1);
+    //    }
+    //}
+    //public void Resolution1366x768(bool active)
+    //{
+    //    if (active == false)
+    //    {
+    //        PlayerPrefs.SetInt("togglestate13x76", 0);
+    //    }
+    //    else
+    //    {
+    //        Screen.SetResolution(1366, 768,Screen.fullScreen);
+    //        PlayerPrefs.SetInt("togglestate12x76", 1);
+    //    }
+    //}
 
-    public void SetResolution(int resolutionIndex)
-    {
-        currentResolutionIndex = resolutionIndex;
+    //public void SetResolution(int resolutionIndex)
+    //{
+    //    currentResolutionIndex = resolutionIndex;
 
-        switch(currentResolutionIndex)
-        {
-        case 0:
-            resolutionw = 800;
-            resolutionh = 600;
-            break;
-        case 1:
-            resolutionw = 1280;
-            resolutionh = 720;
-            break;
-        case 2:
-            resolutionw = 1366;
-            resolutionh = 768;
-            break;
-        case 3:
-            resolutionw = 1920;
-            resolutionh = 1080;
-            break;
-        }
+    //    switch(currentResolutionIndex)
+    //    {
+    //    case 0:
+    //        resolutionw = 800;
+    //        resolutionh = 600;
+    //        break;
+    //    case 1:
+    //        resolutionw = 1280;
+    //        resolutionh = 720;
+    //        break;
+    //    case 2:
+    //        resolutionw = 1366;
+    //        resolutionh = 768;
+    //        break;
+    //    case 3:
+    //        resolutionw = 1920;
+    //        resolutionh = 1080;
+    //        break;
+    //    }
 
-        Screen.SetResolution(resolutionw, resolutionh, Screen.fullScreen);
-    }
+    //    Screen.SetResolution(resolutionw, resolutionh, Screen.fullScreen);
+    //}
 
     public void SetVolume(float volume)
     {
@@ -115,26 +115,20 @@ public class SettingsMenu : MonoBehaviour
 
 
 
-    //public void SetFullscreen(bool isFullScreen)
-    //{
-    //    Screen.fullScreen = isFullScreen;
-
-    //    if(isFullScreen == false)
-    //    {
-    //        PlayerPrefs.SetInt("togglestate",0);
-    //    }
-    //    else
-    //    {
-    //        isFullScreen = true;
-    //        PlayerPrefs.SetInt("togglestate",1);
-    //    }
-    //}
-
-    public void LoadScene()
+    public void SetFullscreen(bool isFullScreen)
     {
-        SceneManager.LoadScene("Credit");
+        Screen.fullScreen = isFullScreen;
+
+        if (isFullScreen == false)
+        {
+            PlayerPrefs.SetInt("togglestatefs", 0);
+        }
+        else
+        {
+            isFullScreen = true;
+            PlayerPrefs.SetInt("togglestatefs", 1);
+        }
     }
-    
 }
 
 

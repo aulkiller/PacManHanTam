@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -13,9 +14,20 @@ public class MainMenu : MonoBehaviour
     //    Cursor.lockState = CursorLockMode.None;
     //}
 
+    [SerializeField]private Text highScore;
+    
+
+    private void Start()
+    { 
+        highScore.text = PlayerPrefs.GetInt("Highscore").ToString();
+    }
+
+
+
     public void Mulai()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
     }
 
     public void Quit()

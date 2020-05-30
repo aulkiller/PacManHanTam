@@ -12,53 +12,66 @@ public class Unit : MonoBehaviour
 	Vector2[] path;
 	int targetIndex;
 
+	//private void Update()
+	//{
+	//	if (!gameObject.activeSelf) StopAllCoroutines();
+	//}
+
 	public IEnumerator RefreshPath()
 	{
-		Vector2 targetPositionOld = (Vector2)target.position + Vector2.up; // ensure != to target.position initially
+		//if (gameObject.activeSelf)
+		//{
+			Vector2 targetPositionOld = (Vector2)target.position + Vector2.up; // ensure != to target.position initially
 
-		while (true)
-		{
-			if (targetPositionOld != (Vector2)target.position)
+			while (true)
 			{
-				targetPositionOld = (Vector2)target.position;
+				if (targetPositionOld != (Vector2)target.position)
+				{
+					targetPositionOld = (Vector2)target.position;
 
-				path = Pathfinding.RequestPath(transform.position, target.position);
-				StopCoroutine("FollowPath");
-				StartCoroutine("FollowPath");
+					path = Pathfinding.RequestPath(transform.position, target.position);
+					StopCoroutine("FollowPath");
+					StartCoroutine("FollowPath");
+				}
+
+				yield return new WaitForSeconds(.25f);
 			}
-
-			yield return new WaitForSeconds(.25f);
-		}
+		//}
+		//else StopAllCoroutines();
 	}
 
 	public IEnumerator FollowPath()
 	{
-		
-		if (path.Length > 0)
-		{
-			targetIndex = 0;
-			Vector2 currentWaypoint = path[0];
+		//if (gameObject.activeSelf)
+		//{
 
-			while (true)
+			if (path.Length > 0)
 			{
+				targetIndex = 0;
+				Vector2 currentWaypoint = path[0];
 
-				if ((Vector2)transform.position == currentWaypoint)
+				while (true)
 				{
-					targetIndex++;
-					if (targetIndex >= path.Length)
+
+					if ((Vector2)transform.position == currentWaypoint)
 					{
-						targetIndex = 0;
-						path = new Vector2[0];
-						yield break;
+						targetIndex++;
+						if (targetIndex >= path.Length)
+						{
+							targetIndex = 0;
+							path = new Vector2[0];
+							yield break;
+						}
+						currentWaypoint = path[targetIndex];
+
 					}
-					currentWaypoint = path[targetIndex];
+					transform.position = Vector2.MoveTowards(transform.position, currentWaypoint, this.speed * Time.deltaTime);
+					yield return null;
 
 				}
-					transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, this.speed * Time.deltaTime);
-				yield return null;
-
 			}
-		}
+		//}
+		//else StopAllCoroutines();
 	}
 
 	public void OnDrawGizmos()
@@ -79,6 +92,16 @@ public class Unit : MonoBehaviour
 					Gizmos.DrawLine(path[i - 1], path[i]);
 				}
 			}
+		}
+	}
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if(collision.gameObject.CompareTag("Player"))
+		{
+			GameStatus gameStatus = FindObjectOfType<GameStatus>();
+			gameStatus.Health();
+			gameStatus.Stop();
+
 		}
 	}
 }

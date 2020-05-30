@@ -3,22 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class GameStatus : MonoBehaviour
 {
-    [SerializeField] private Text scoreText,timerText;
-    [SerializeField] private int currentScore = 0, areaPoint,areaTime;
+    [SerializeField] private Text scoreText,timerText,highText;
+    [SerializeField] private int areaTime;
+    public int currentScore = 0, areaPoint;
     private int currentPoint;
+    [SerializeField] private GameObject[] buttons = new GameObject[3];
 
     public Vector2 maxAreaSize,minAreaSize;
-    [SerializeField] private GameObject pointPrefabs,finishPrefabs;
-    private GameObject[] enemy;
+    [SerializeField] private GameObject pointPrefabs, finishPrefabs, playerObject;
+    [SerializeField]  private GameObject[] enemy = new GameObject[3];
+    [SerializeField] private GameObject[] healthBox = new GameObject[3];
     private Vector3[] enemyLocation = new Vector3[3];
     private MazeGenerator maze;
     private Player player;
     private Grid grid;
     private GameObject Abintang;
     private Unit[] unit = new Unit[3];
-    public bool win=false;
+    [SerializeField] private int health;
+    //private GameOver button;
+    private bool needTutorial = true , justTutorial = false;
+    private GameObject wallParent;
+    private Camera camera;
+    [SerializeField] private GameObject mainCamera;
+    private Vector2 scorePlace;
     //private void Awake()
     //{
     //    int gameStatusCount = FindObjectsOfType<GameStatus>().Length;
@@ -35,19 +45,36 @@ public class GameStatus : MonoBehaviour
 
     private void Awake()
     {
-        enemy = GameObject.FindGameObjectsWithTag("Enemy");
+        highText.text  = PlayerPrefs.GetInt("Highscore").ToString();
+        scorePlace = scoreText.rectTransform.localPosition;
+       // enemy = GameObject.FindGameObjectsWithTag("Enemy");
         maze = gameObject.GetComponent<MazeGenerator>();
         player = FindObjectOfType<Player>();
         grid = FindObjectOfType<Grid>();
         Abintang = GameObject.Find("A*");
+        playerObject = GameObject.Find("(Player)");
         unit = FindObjectsOfType<Unit>();
-
-
-
+      //  button = FindObjectOfType<GameOver>();
+        camera = mainCamera.GetComponent<Camera>();
     }
 
     private void Start()
     {
+        Time.timeScale = 1;
+        Destroy(healthBox[2]);
+        mainCamera.transform.position = new Vector3(0, 0,-5f);
+        camera.orthographicSize = 10.125f;
+        wallParent = GameObject.Find("WallHandler");
+        if (needTutorial == justTutorial)
+        {
+            Tutorial();
+
+         }
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].SetActive(false);
+        }
+
         scoreText.text = currentScore.ToString();
         for (int i = 0; i < enemy.Length; i++)
         {
@@ -57,13 +84,22 @@ public class GameStatus : MonoBehaviour
         StartCoroutine(Timer());
     }
 
-    private void Update()
+    public void Tutorial()
     {
-        if (Input.GetKey(KeyCode.Return) && win)
-        {
-           // player.enabled = true;
-            GameObject wallParent = GameObject.Find("WallHandler");
-            if (wallParent != null)
+        wallParent.SetActive(true);
+        enemy[1].SetActive(false);
+        camera.orthographicSize = 5;
+        mainCamera.transform.position = new Vector2(5, 10);
+    }
+
+    public void Lanjut()
+    {
+       
+        scoreText.alignment = TextAnchor.MiddleRight;
+        scoreText.rectTransform.localPosition = scorePlace;
+           
+
+        if (wallParent != null)
             {
                 Destroy(wallParent);
                 maze.enabled = true;
@@ -72,30 +108,32 @@ public class GameStatus : MonoBehaviour
             {
                 maze.DeleteMaze();
             }
+
             for (int i = 0; i < enemy.Length; i++)
             {
                 enemy[i].transform.position = enemyLocation[i];
             }
 
-            player.ResetLocation();
             Time.timeScale = 1;
             StartCoroutine(Timer());
-            win = false;
-
+        Abintang.SetActive(false);
+        for (int i = 0; i < enemy.Length; i++)
+        {
+            enemy[i].SetActive(false);
         }
+        for (int i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].SetActive(false);
+            }
+            playerObject.SetActive(false);
+            player.ResetLocation();
+        
     }
 
     IEnumerator Timer()
     {
         timerText.enabled = true;
-        player.play = false;
         int currentTime = areaTime;
-        if(areaPoint == 5)
-        {
-            enemy[0].active = true;
-        }
-        if(areaPoint == 10)
-            enemy[2].active = true;
         while (currentTime > 0)
         {
     
@@ -104,30 +142,52 @@ public class GameStatus : MonoBehaviour
             //{
 
             //}
-            if (currentTime <= 2 && GameObject.Find("Maze") == null && GameObject.Find("WallHandler") == null)
+
+            if( currentTime <= 3)
             {
-                maze.GenerateMaze(maze.mazeRows, maze.mazeColumns);
+                if (GameObject.Find("Maze") == null && GameObject.Find("WallHandler") == null)
+                {
+                    maze.GenerateMaze(maze.mazeRows, maze.mazeColumns);
+                }
+                playerObject.SetActive(true);
+                player.play = false;
+                enemy[0].SetActive(true);
+                if (areaPoint >= 3)
+                    enemy[1].SetActive(true);
+                if(areaPoint >= 7)
+                    enemy[2].SetActive(true);
             }
+
+            //if (currentTime <= 2) Abintang.SetActive(true);
+
             if (currentTime <= 1 && GameObject.Find("Point") == null)
             {
                 //Abintang.SetActive(true);
                 grid.CreateGrid();
                 PointMaker();
+            //for(int i = 0;i<unit.Length;i++)
+            //{
+            //    StartCoroutine(unit[i].RefreshPath());
+            //}
             }
             yield return new WaitForSeconds(1f);
             currentTime--;
         }
         timerText.text = "Start";
-            for(int i = 0;i<unit.Length;i++)
-            {
-            StartCoroutine(unit[i].RefreshPath());
-            }
+        Abintang.SetActive(true);
         player.play = true;
-       // player.enabled = true;
+        Debug.Log(enemy.Length);
+        unit = FindObjectsOfType<Unit>();
+        for (int i = 0; i < enemy.Length; i++)
+        {
+            if(enemy[i].activeSelf)
+            StartCoroutine(unit[i].RefreshPath());
+        }
+        // player.enabled = true;
 
         yield return new WaitForSeconds(1f);
-
         timerText.enabled = false;
+
         // print("meo");
     }
 
@@ -142,7 +202,7 @@ public class GameStatus : MonoBehaviour
         }
     }
 
-    void PointMaker()
+    private void PointMaker()
     {
         currentPoint = areaPoint;
         GameObject pointParent = new GameObject();
@@ -158,23 +218,28 @@ public class GameStatus : MonoBehaviour
         }
     }
 
-    public void NexLevel()
+    public void Stop()
     {
-       
-  
-
-        //Abintang.SetActive(false);
+        StopAllCoroutines();
         Destroy(GameObject.Find("Point"));
-        for (int i = 0; i< unit.Length;i++)
-        {
-             StopCoroutine(unit[i].FollowPath());
-            //StopCoroutine("FollowPath");
-        }
+        Destroy(GameObject.Find("FinishLine(Clone)"));
         player.play = false;
         //player.enabled = false;
-        win = true;
-        areaPoint++;
+
         Time.timeScale = 0;
+        scoreText.rectTransform.localPosition = new Vector2(0, 0);
+        scoreText.alignment = TextAnchor.MiddleCenter;
+        buttons[0].SetActive(true);
+        if(health>0) buttons[1].SetActive(true);
+        else if(health <= 0) buttons[2].SetActive(true);
     }
+    public void Health()
+    {
+        health--;
+        if (health != 0)
+        Destroy(healthBox[health-1]);
+    }
+
+ 
 
 }
