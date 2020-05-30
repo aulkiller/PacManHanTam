@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Wall : MonoBehaviour
 {
     private Player player;
     private Grid grid;
+    [SerializeField] private AudioSource audioSource;
 
-
+    private void Start()
+    {
+        audioSource = FindObjectOfType<AudioSource>();
+    }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -29,8 +34,8 @@ public class Wall : MonoBehaviour
                 Destroy(gameObject);
                 grid = FindObjectOfType<Grid>();
                 grid.CreateGrid();
-
-                }
+                    audioSource.Play();
+                    }
                 
             }
 

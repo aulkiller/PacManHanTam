@@ -34,4 +34,11 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void Reset()
+    {
+        PlayerPrefs.SetInt("Highscore", 0);
+        highScore.text = PlayerPrefs.GetInt("Highscore").ToString();
+    }
+    
 }

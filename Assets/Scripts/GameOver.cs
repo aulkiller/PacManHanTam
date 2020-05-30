@@ -28,4 +28,6 @@ public class GameOver : MonoBehaviour
         GameStatus gameStatus = FindObjectOfType<GameStatus>();
         gameStatus.Lanjut();
     }
+
+
 }

@@ -13,6 +13,7 @@ public class Finish : MonoBehaviour
         Location();
     }
 
+
     private void Location()
     {
 

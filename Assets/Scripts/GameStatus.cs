@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameStatus : MonoBehaviour
 {
-    [SerializeField] private Text scoreText,timerText,highText;
+    [SerializeField] private Text scoreText,timerText,highText,stageLevel;
     [SerializeField] private int areaTime;
     public int currentScore = 0, areaPoint;
     private int currentPoint;
@@ -14,15 +14,15 @@ public class GameStatus : MonoBehaviour
 
     public Vector2 maxAreaSize,minAreaSize;
     [SerializeField] private GameObject pointPrefabs, finishPrefabs, playerObject;
-    [SerializeField]  private GameObject[] enemy,enemyPrefabs = new GameObject[3];
+    [SerializeField]  private GameObject[] enemy = new GameObject[6];
     [SerializeField] private GameObject[] healthBox = new GameObject[3];
     [SerializeField] private GameObject[] teks = new GameObject[3];
-    private Vector3[] enemyLocation = new Vector3[3];
+    private Vector3[] enemyLocation = new Vector3[6];
     private MazeGenerator maze;
     private Player player;
     private Grid grid;
     private GameObject Abintang;
-    private Unit[] unit = new Unit[3];
+    private Unit[] unit = new Unit[6];
     [SerializeField] private int health;
     //private GameOver button;
     private bool needTutorial = true , justTutorial = false;
@@ -79,7 +79,7 @@ public class GameStatus : MonoBehaviour
         {
             teks[i].SetActive(false);
         }
-
+        stageLevel.text = areaPoint.ToString();
         scoreText.text = currentScore.ToString();
         for (int i = 0; i < enemy.Length; i++)
         {
@@ -102,10 +102,11 @@ public class GameStatus : MonoBehaviour
        
         scoreText.alignment = TextAnchor.MiddleRight;
         scoreText.rectTransform.localPosition = scorePlace;
-           
+        stageLevel.text = areaPoint.ToString();
 
 
-            for (int i = 0; i < enemy.Length; i++)
+
+        for (int i = 0; i < enemy.Length; i++)
             {
                 enemy[i].transform.position = enemyLocation[i];
             }
@@ -126,8 +127,15 @@ public class GameStatus : MonoBehaviour
             teks[i].SetActive(false);
         }
         playerObject.SetActive(false);
-            player.ResetLocation();
-        
+            player.ResetLocation();        
+        for(int i = 0; i<unit.Length;i++)
+        {
+            if(areaPoint%3 == 0 && areaPoint>= 18)
+            {
+            unit[i].Speed();
+            }
+
+        }
     }
 
     IEnumerator Timer()
@@ -152,10 +160,13 @@ public class GameStatus : MonoBehaviour
                 playerObject.SetActive(true);
                 player.play = false;
                     enemy[0].SetActive(true);
-                    if (areaPoint >= 3)
-                    enemy[1].SetActive(true);
-                    if(areaPoint >= 6)
-                    enemy[2].SetActive(true);
+                //if(areaPoint %3 == 0)
+                   
+                    for(int i = 3,k =1; i<=areaPoint;i+=3,k++)
+                    {
+                        if(i<=15)
+                        enemy[k].SetActive(true);
+                    }
                 //    if(areaPoint > 6)
                 //    {
                 //    if (areaPoint % 3 == 0)
@@ -292,7 +303,7 @@ public class GameStatus : MonoBehaviour
         teks[2].SetActive(true);
         buttons[0].SetActive(true);
         buttons[4].SetActive(true);
-
+        
     }
 
     public void Resume()

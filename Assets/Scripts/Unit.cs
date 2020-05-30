@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Audio;
 using System.Collections;
 using System.Collections.Specialized;
 
 public class Unit : MonoBehaviour
 {
-
+	public AudioSource saw;
 	public Transform target;
 	public float speed;
 	[SerializeField] private float RotationSpeed;
@@ -12,10 +13,15 @@ public class Unit : MonoBehaviour
 	Vector2[] path;
 	int targetIndex;
 
-	//private void Update()
-	//{
-	//	if (!gameObject.activeSelf) StopAllCoroutines();
-	//}
+	private GameStatus gameStatus;
+
+	private void Start()
+	{
+
+		gameStatus = FindObjectOfType<GameStatus>();
+	}
+
+
 
 	public IEnumerator RefreshPath()
 	{
@@ -94,11 +100,21 @@ public class Unit : MonoBehaviour
 			}
 		}
 	}
+
+	public void Speed()
+	{
+		if (gameStatus.areaPoint >= 18 && gameStatus.areaPoint % 3 == 0)
+		{
+			if (speed < 4) speed++;
+			else if (speed >= 4) speed += 0.5f;
+		}
+	}
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-			GameStatus gameStatus = FindObjectOfType<GameStatus>();
+		
 		if(collision.gameObject.CompareTag("Player"))
 		{
+			saw.Play();
 			gameStatus.Health();
 			gameStatus.Stop();
 		}

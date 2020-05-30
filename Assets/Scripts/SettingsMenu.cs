@@ -11,7 +11,6 @@ public class SettingsMenu : MonoBehaviour
     public AudioMixer volMixer;
     public Slider volSlider;
     public Toggle fullScreenToggle;
-    public Toggle resolutionToggle800x600, resolutionToggle1280x720, resolutionToggle1366x768;
     //public GameObject Credits;
     private int screenInt;
     private int resolutionh,resolutionw;
@@ -26,6 +25,16 @@ public class SettingsMenu : MonoBehaviour
     {
         screenInt = PlayerPrefs.GetInt("togglestate");
 
+        if (screenInt == 1)
+        {
+            isFullScreen = true;
+            fullScreenToggle.isOn = true;
+        }
+        else
+        {
+            fullScreenToggle.isOn = false;
+        }
+
         //resolutionDropdown.onValueChanged.AddListener(new UnityAction<int>(index => 
         //{
         //    PlayerPrefs.SetInt(resname, resolutionDropdown.value);
@@ -37,6 +46,7 @@ public class SettingsMenu : MonoBehaviour
     {
         volSlider.value = PlayerPrefs.GetFloat("MVolume",1f);
         volMixer.SetFloat("volume",PlayerPrefs.GetFloat("MVolume"));
+
 
         
 
@@ -121,14 +131,21 @@ public class SettingsMenu : MonoBehaviour
 
         if (isFullScreen == false)
         {
-            PlayerPrefs.SetInt("togglestatefs", 0);
+            Screen.SetResolution(640, 360, false);
+            PlayerPrefs.SetInt("togglestate", 0);
         }
         else
         {
             isFullScreen = true;
-            PlayerPrefs.SetInt("togglestatefs", 1);
+            Screen.SetResolution(1408, 792, true);
+            PlayerPrefs.SetInt("togglestate", 1);
         }
     }
+    public void Reset()
+    {
+        PlayerPrefs.SetInt("Highscore", 0);
+    }
+
 }
 
 

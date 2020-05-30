@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c3d2c8eb7d4ba4aa9c9e4a61443cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saw: {fileID: 6833752530985935968, guid: f6446d8797b67de4b8d20f43e39fae22, type: 3}
   target: {fileID: 3989415096564959045, guid: 913b5fba46d41a84e8f827da2c6c3fd5, type: 3}
   speed: 2
   RotationSpeed: 0
