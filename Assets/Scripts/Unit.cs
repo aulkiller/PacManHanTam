@@ -96,12 +96,11 @@ public class Unit : MonoBehaviour
 	}
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
+			GameStatus gameStatus = FindObjectOfType<GameStatus>();
 		if(collision.gameObject.CompareTag("Player"))
 		{
-			GameStatus gameStatus = FindObjectOfType<GameStatus>();
 			gameStatus.Health();
 			gameStatus.Stop();
-
 		}
 	}
 }

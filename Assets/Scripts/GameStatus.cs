@@ -10,12 +10,13 @@ public class GameStatus : MonoBehaviour
     [SerializeField] private int areaTime;
     public int currentScore = 0, areaPoint;
     private int currentPoint;
-    [SerializeField] private GameObject[] buttons = new GameObject[3];
+    [SerializeField] private GameObject[] buttons = new GameObject[6];
 
     public Vector2 maxAreaSize,minAreaSize;
     [SerializeField] private GameObject pointPrefabs, finishPrefabs, playerObject;
-    [SerializeField]  private GameObject[] enemy = new GameObject[3];
+    [SerializeField]  private GameObject[] enemy,enemyPrefabs = new GameObject[3];
     [SerializeField] private GameObject[] healthBox = new GameObject[3];
+    [SerializeField] private GameObject[] teks = new GameObject[3];
     private Vector3[] enemyLocation = new Vector3[3];
     private MazeGenerator maze;
     private Player player;
@@ -70,9 +71,13 @@ public class GameStatus : MonoBehaviour
             Tutorial();
 
          }
-        for (int i = 0; i < buttons.Length; i++)
+        for (int i = 0; i < buttons.Length-1; i++)
         {
             buttons[i].SetActive(false);
+        }
+        for (int i = 0; i < teks.Length; i++)
+        {
+            teks[i].SetActive(false);
         }
 
         scoreText.text = currentScore.ToString();
@@ -99,33 +104,28 @@ public class GameStatus : MonoBehaviour
         scoreText.rectTransform.localPosition = scorePlace;
            
 
-        if (wallParent != null)
-            {
-                Destroy(wallParent);
-                maze.enabled = true;
-            }
-            if (GameObject.Find("Maze") != null)
-            {
-                maze.DeleteMaze();
-            }
 
             for (int i = 0; i < enemy.Length; i++)
             {
                 enemy[i].transform.position = enemyLocation[i];
             }
 
-            Time.timeScale = 1;
-            StartCoroutine(Timer());
+        Time.timeScale = 1;
+        StartCoroutine(Timer());
         Abintang.SetActive(false);
         for (int i = 0; i < enemy.Length; i++)
         {
             enemy[i].SetActive(false);
         }
-        for (int i = 0; i < buttons.Length; i++)
+        for (int i = 0; i < buttons.Length-1; i++)
             {
                 buttons[i].SetActive(false);
             }
-            playerObject.SetActive(false);
+        for (int i = 0; i < teks.Length; i++)
+        {
+            teks[i].SetActive(false);
+        }
+        playerObject.SetActive(false);
             player.ResetLocation();
         
     }
@@ -136,7 +136,7 @@ public class GameStatus : MonoBehaviour
         int currentTime = areaTime;
         while (currentTime > 0)
         {
-    
+            buttons[5].SetActive(true);
             timerText.text = currentTime.ToString();
             //if (currentTime <= 3 && player.transform.localPosition != player.startLocation)  
             //{
@@ -151,11 +151,39 @@ public class GameStatus : MonoBehaviour
                 }
                 playerObject.SetActive(true);
                 player.play = false;
-                enemy[0].SetActive(true);
-                if (areaPoint >= 3)
+                    enemy[0].SetActive(true);
+                    if (areaPoint >= 3)
                     enemy[1].SetActive(true);
-                if(areaPoint >= 7)
+                    if(areaPoint >= 6)
                     enemy[2].SetActive(true);
+                //    if(areaPoint > 6)
+                //    {
+                //    if (areaPoint % 3 == 0)
+                //    {
+                //        if((areaPoint/3)%3 == 0)
+                //        {
+                //            GameObject enemyClone = Instantiate(enemyPrefabs[0],enemy[0].transform.position,enemy[0].transform.rotation);
+                //            if (GameObject.Find("EnemyHandler") != null) enemyClone.transform.parent = GameObject.Find("EnemyHandler").transform;
+                //            enemyClone.gameObject.name = "Enemy " + areaPoint;
+                //            enemyClone.gameObject.tag = "Enemy";
+                //        }
+                //        if ((areaPoint / 3) % 3 == 1)
+                //        {
+                //            GameObject enemyClone = Instantiate(enemyPrefabs[1], enemy[2].transform.position, enemy[1].transform.rotation);
+                //            if (GameObject.Find("EnemyHandler") != null) enemyClone.transform.parent = GameObject.Find("EnemyHandler").transform;
+                //            enemyClone.gameObject.name = "Enemy " + areaPoint;
+                //            enemyClone.gameObject.tag = "Enemy";
+                //        }
+                //        if ((areaPoint / 3) % 3 == 2)
+                //        {
+                //            GameObject enemyClone = Instantiate(enemyPrefabs[2], enemy[2].transform.position, enemy[2].transform.rotation);
+                //            if (GameObject.Find("EnemyHandler") != null) enemyClone.transform.parent = GameObject.Find("EnemyHandler").transform;
+                //            enemyClone.gameObject.name = "Enemy " + areaPoint;
+                //            enemyClone.gameObject.tag = "Enemy";
+                //        }
+                //    }
+
+                //}
             }
 
             //if (currentTime <= 2) Abintang.SetActive(true);
@@ -189,6 +217,7 @@ public class GameStatus : MonoBehaviour
         timerText.enabled = false;
 
         // print("meo");
+        buttons[5].SetActive(false);
     }
 
     public void GetPoint()
@@ -225,8 +254,19 @@ public class GameStatus : MonoBehaviour
         Destroy(GameObject.Find("FinishLine(Clone)"));
         player.play = false;
         //player.enabled = false;
+        buttons[3].SetActive(true);
 
         Time.timeScale = 0;
+
+        if (wallParent != null)
+        {
+            Destroy(wallParent);
+            maze.enabled = true;
+        }
+        if (GameObject.Find("Maze") != null)
+        {
+            maze.DeleteMaze();
+        }
         scoreText.rectTransform.localPosition = new Vector2(0, 0);
         scoreText.alignment = TextAnchor.MiddleCenter;
         buttons[0].SetActive(true);
@@ -235,11 +275,35 @@ public class GameStatus : MonoBehaviour
     }
     public void Health()
     {
+        teks[0].SetActive(true);
         health--;
         if (health != 0)
         Destroy(healthBox[health-1]);
     }
+    public void Finish()
+    {
+        teks[1].SetActive(true);
+    }
 
- 
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        buttons[3].SetActive(true);
+        teks[2].SetActive(true);
+        buttons[0].SetActive(true);
+        buttons[4].SetActive(true);
+
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1;
+        buttons[3].SetActive(false);
+        teks[2].SetActive(false);
+        buttons[0].SetActive(false);
+        buttons[4].SetActive(false);
+
+    }
+
 
 }

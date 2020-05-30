@@ -477,7 +477,7 @@ ScriptsOnlyBuild:
     className: SpriteSkinEntity
   - hash:
       serializedVersion: 2
-      Hash: 5b7df443e76e9ec2ef3710532060a769
+      Hash: ca2a7a9605947049a5ecf8accf12b637
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameStatus

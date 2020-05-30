@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private float g = 1;
+    private GameStatus gameStatus;
     // private Wall wall;
 
     void Start()
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         startLocation = gameObject.transform.position;
+        gameStatus = FindObjectOfType<GameStatus>();
         //dest = transform.position;
         //spriteRenderer.color = Color.white;
     }
@@ -107,7 +109,10 @@ public class Player : MonoBehaviour
                     breakPower = 0;
                 }
             }
-
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                gameStatus.Pause();
+            }
         }
         else if (!play)
         {

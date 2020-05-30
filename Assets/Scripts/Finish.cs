@@ -32,6 +32,7 @@ public class Finish : MonoBehaviour
         {
             gameStatus.areaPoint++;
             gameStatus.Stop();
+            gameStatus.Finish();
             //gameStatus.next = true;
             Destroy(gameObject);
         }
