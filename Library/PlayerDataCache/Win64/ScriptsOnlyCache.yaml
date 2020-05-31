@@ -22,8 +22,6 @@ ScriptsOnlyBuild:
     - UnityEditor.Tilemaps.GridPalettes
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.TileDragAndDropManager
-    Unity.CollabProxy.Editor.dll:
-    - UnityEditor.CollabToolbarWindow
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
     UnityEditor.TestRunner.dll:
@@ -763,4 +761,4 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/MainMenu.unity
   - Assets/Scenes/Main.unity
-  playerPath: C:/Users/MSI-PC/Desktop/New Unity Project.exe
+  playerPath: D:/SISOP/PacManTabRak/Result/PacManHanTam.exe
