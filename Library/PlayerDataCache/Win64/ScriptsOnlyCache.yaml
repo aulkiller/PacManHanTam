@@ -88,29 +88,29 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12402}
     - Class: 114
-      Script: {instanceID: 12550}
+      Script: {instanceID: 12552}
     - Class: 114
-      Script: {instanceID: 12658}
+      Script: {instanceID: 12660}
     - Class: 114
-      Script: {instanceID: 12902}
+      Script: {instanceID: 12904}
     - Class: 114
-      Script: {instanceID: 12934}
+      Script: {instanceID: 12936}
     - Class: 114
-      Script: {instanceID: 13018}
+      Script: {instanceID: 13020}
     - Class: 114
-      Script: {instanceID: 13148}
+      Script: {instanceID: 13150}
     - Class: 114
-      Script: {instanceID: 13190}
+      Script: {instanceID: 13192}
     - Class: 114
-      Script: {instanceID: 13336}
+      Script: {instanceID: 13338}
     - Class: 114
-      Script: {instanceID: 13530}
+      Script: {instanceID: 13532}
     - Class: 114
-      Script: {instanceID: 13672}
+      Script: {instanceID: 13674}
     - Class: 114
-      Script: {instanceID: 14284}
+      Script: {instanceID: 14286}
     - Class: 114
-      Script: {instanceID: 14394}
+      Script: {instanceID: 14396}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -167,19 +167,19 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12198}
     - Class: 114
-      Script: {instanceID: 12902}
+      Script: {instanceID: 12904}
     - Class: 114
-      Script: {instanceID: 13130}
+      Script: {instanceID: 13132}
     - Class: 114
-      Script: {instanceID: 13672}
+      Script: {instanceID: 13674}
     - Class: 114
-      Script: {instanceID: 14284}
+      Script: {instanceID: 14286}
     - Class: 114
-      Script: {instanceID: 14304}
+      Script: {instanceID: 14306}
     - Class: 114
-      Script: {instanceID: 14326}
+      Script: {instanceID: 14328}
     - Class: 114
-      Script: {instanceID: 14352}
+      Script: {instanceID: 14354}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -761,4 +761,4 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/MainMenu.unity
   - Assets/Scenes/Main.unity
-  playerPath: D:/SISOP/PacManTabRak/Result/PacManHanTam.exe
+  playerPath: D:/SISOP/PacManTabRak/Result2/PacManHanTam.exe
