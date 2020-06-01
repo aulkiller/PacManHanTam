@@ -10,4 +10,4 @@ Bugs :
 1. Sound Effect Tembok Hancur tidak berbunyi tergantikan oleh Background Music 
 (Hanya jika dijalankan via .exe pada Release setelah dibuild lewat Unity 2019.3.8.f1) 
 
-Bugs diatas tidak akan muncul apabila dijalankan via Unity langsung
+Bug diatas tidak akan muncul apabila dijalankan via Unity langsung
